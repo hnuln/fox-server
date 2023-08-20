@@ -1,18 +1,32 @@
 const mysql = require('mysql')
 
-const conn = mysql.createConnection({
+let pool = mysql.createPool({
     host: 'localhost',
     port: 3306,
     database: 'interface_sys',
     user: 'root',
-    password: '20020610ln'
-})
-
-// conn.connect()
-// const sql = 'select * from sys_user;'
-
-
-// conn.query(sql, function (err, results,) {
-//     if (err) throw err
-//     console.log("results", results)
-// })
+    password: '20020610ln',
+    multipleStatements: true
+});
+let query = (sql, values) => {
+    return new Promise((resolve, reject) => {
+        pool.getConnection((err, connection) => {
+            if (err) {
+                reject(err)
+            } else {
+                connection.query(sql, values, (err, rows) => {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        // console.log(rows);
+                        resolve(rows)
+                    }
+                    connection.release()
+                })
+            }
+        })
+    })
+};
+module.exports = {
+    query
+}
