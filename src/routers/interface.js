@@ -7,11 +7,11 @@ interfaceRouter.post('/interface/store', interfaceCtl.store)
 // 删除接口
 interfaceRouter.post('/interface/delete', interfaceCtl.delete)
 // 展示接口信息
-interfaceRouter.get('/interface/show', interfaceCtl.show)
+interfaceRouter.post('/interface/show', interfaceCtl.show)
 // 展示接口名
-interfaceRouter.get('/interface/showName', interfaceCtl.showName)
+interfaceRouter.post('/interface/showName', interfaceCtl.showName)
 // 展示历史接口
-interfaceRouter.get('/interface/showInterfaceByTime', interfaceCtl.showInterfaceByTime)
+interfaceRouter.post('/interface/showInterfaceByTime', interfaceCtl.showInterfaceByTime)
 // 修改接口名
 interfaceRouter.post('/interface/updateName', interfaceCtl.updateName)
 

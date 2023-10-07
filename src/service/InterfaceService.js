@@ -1,15 +1,14 @@
 const db = require('../utils/database')
-
 module.exports = {
     /**
      * 保存接口
      */
     store: async (obj) => {
         const sql =
-            'INSERT INTO sys_interface (project_id, interface_name, method, params, `data`, url, isDelete, time, collection_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?); '
+            'INSERT INTO sys_interface (project_id, interface_name, method, params, `data`, url, isDelete, time, collection_id, json, bodyIndex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); '
         let time = new Date().toLocaleString()
         // console.log('服务层正常运行')
-        return await db.query(sql, [obj.projectID, obj.interfaceName, obj.method, obj.params, obj.data, obj.url, obj.isDelete, time, obj.collectionID])
+        return await db.query(sql, [obj.project_id, obj.interface_name, obj.method, obj.params, obj.data, obj.url, 0, time, obj.collection_id, obj.json, obj.bodyIndex])
     },
     /**
      * 删除接口
@@ -47,4 +46,5 @@ module.exports = {
         const sql = 'UPDATE sys_interface SET interface_name=? WHERE interface_id=?;'
         return await db.query(sql, [newName, interfaceID])
     },
+
 }

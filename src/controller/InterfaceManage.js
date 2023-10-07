@@ -6,17 +6,22 @@ module.exports = {
      * @param ctx
      */
     store: async ctx => {
-        const obj = ctx.request.body
+        const {obj} = ctx.request.body
+        // console.log(obj);
         try {
             let interfaceObj = await interfaceService.store(obj)
+            // 删掉原先的
+            let updatedelete = await interfaceService.delete(obj.interface_id)
             // console.log(interfaceObj);
-            if (interfaceObj.affectedRows === 1) {
+            if (interfaceObj.affectedRows === 1&&updatedelete.affectedRows===1) {
                 ctx.response.status = 200
                 ctx.body = {
                     code: 200,
-                    msg: "接口保存成功"
+                    msg: "接口保存成功",
+                    insertId: interfaceObj.insertId
                 }
             } 
+            
         } catch (error) {
             ctx.body = {
                 code: 400,
@@ -54,6 +59,8 @@ module.exports = {
      * 展示接口信息
      */
     show: async ctx => {
+        // console.log("接收到响应");
+        // console.log(ctx);
         const { interfaceID } = ctx.request.body
         try {
             const result = await interfaceService.show(interfaceID)
@@ -102,7 +109,7 @@ module.exports = {
      * @param {obj} ctx 
      */
     updateName: async ctx => {
-        const { interfaceID ,newName} = ctx.request.body
+        const { interfaceID, newName } = ctx.request.body
         try {
             const result = await interfaceService.updateName(interfaceID, newName)
             if (result.affectedRows === 1) {
